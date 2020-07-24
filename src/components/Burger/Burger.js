@@ -4,12 +4,12 @@ import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import { withRouter } from 'react-router-dom';
 
 const burger = props => {
-    let transformedIngredients = // Big array with sub arrays- 1 array for each type of food, 1 object in each subarray per count of type
-    Object.keys(props.ingredients) //['salad', 'bacon', 'cheese', 'meat']
-    .map(ingredientName => {
-        return [...Array(props.ingredients[ingredientName])] //[1, 1, 2, 2]
+    // Big array with sub arrays- 1 array for each type of food, 1 object in each subarray per count of type
+    let transformedIngredients = Object.keys(props.ingredients)
+        .map(ingredientName => {
+            return [...Array(props.ingredients[ingredientName])]
         .map((_, index) => {
-            return <BurgerIngredient key={ingredientName + index} type={ingredientName}/>
+            return <BurgerIngredient size={props.size} key={ingredientName + index} type={ingredientName}/>
         });
     });
 
@@ -18,10 +18,16 @@ const burger = props => {
     }
 
     return (
-        <div className={classes.Burger}>
-            <BurgerIngredient type="bread-top" />
+        <div className={classes.Burger}
+            style={props.style}
+        >
+            <BurgerIngredient 
+                size={props.size}
+                type="bread-top" />
             {transformedIngredients}
-            <BurgerIngredient type="bread-bottom" />
+            <BurgerIngredient 
+                size={props.size}
+                type="bread-bottom" />
         </div>
     )
 }

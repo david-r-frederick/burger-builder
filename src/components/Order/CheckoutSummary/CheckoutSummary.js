@@ -8,14 +8,12 @@ const checkoutSummary = props => {
         <div className={classes.CheckoutSummary}>
             <h1>We hope it tastes good!</h1>
             <div style={{width: '100%', margin: 'auto'}}>
-                <Burger ingredients={props.ingredients} />
+                <Burger size={2} ingredients={props.ingredients} />
             </div>
             <Button btnType="Danger" clicked={props.checkoutCancelled}>CANCEL</Button>
             <Button btnType="Success" clicked={props.checkoutContinued}>CONTINUE</Button>
         </div>
     );
 }
-
-
 
 export default checkoutSummary;

@@ -2,59 +2,50 @@ import React, { Component } from 'react';
 import Order from '../../components/Order/Order';
 import axios from '../../hoc/axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as actions from '../../store/actions/index';
+import { connect } from 'react-redux';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Orders extends Component {
-    state = {
-        orders: [],
-        loading: true,
-    };
-
-    componentDidMount() {
-        axios
-            .get('/orders.json')
-            .then((res) => {
-                const fetchedOrders = [];
-                for (let key in res.data) {
-                    fetchedOrders.push({
-                        ...res.data[key],
-                        id: key,
-                    });
-                }
-                this.setState({ loading: false, orders: fetchedOrders });
-            })
-            .catch((err) => {
-                this.setState({ loading: false });
-            });
+    componentDidMount () {
+        this.props.onFetchOrders(this.props.token, this.props.userId);
     }
 
     render() {
+        let orders = <Spinner />;
+        if(!this.props.loading){
+            orders = this.props.orders.map((order, index) => (
+                <Order
+                    key={order.id}
+                    ind={index}
+                    ingredients={order.ingredients}
+                    price={order.price}
+                />
+            ));
+        }
         return (
-            <div>
-                {/* <Order 
-                    ingredients={ingredientsList}
-                    totalPrice={'4.99'}
-                /> */}
-                {this.state.orders.map((order) => (
-                    <Order
-                        key={order.id}
-                        ingredients={Object.entries(order.ingredients).map(
-                            (el) => {
-                                return (
-                                    <span
-                                        key={el[0]}
-                                        style={{ textTransform: 'capitalize', display: 'inline-block', margin: '0 8px', border: '1px solid #ccc', padding: '6px' }}
-                                    >
-                                        {el[0]} {el[1]}
-                                    </span>
-                                );
-                            }
-                        )}
-                        price={order.price}
-                    />
-                ))}
+            <div style={{
+                width: "90%"
+            }}>
+                {orders}
             </div>
         );
     }
 }
 
-export default withErrorHandler(Orders, axios);
+const mapStatetoProps = state => {
+    return {
+        orders: state.orders.orders,
+        loading: state.orders.loading,
+        token: state.auth.token,
+        userId: state.auth.userId
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchOrders: (token, userId) => dispatch(actions.fetchOrders(token, userId))
+    }
+}
+
+export default connect(mapStatetoProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
