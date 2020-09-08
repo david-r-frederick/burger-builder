@@ -11,7 +11,34 @@
     display: flex;
     flex-flow: column;
     width: 30%;
-    margin-top: 30px;
+    margin-top: 2em;
+    margin-left: 70px;
+}
+
+.IngredientsChart h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.IngredientsList {
+    padding-left: 10px;
+    margin: auto;
+    margin-top: 0;
+    display: flex;
+    flex-flow: column;
+}
+
+.IngredientListItem {
+    text-transform: capitalize;
+    display: inline-block;
+    margin: 5px 8px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 10em;
+    background-color: rgb(187, 127, 78);
+    color: #fff;
 }
 
 .OrderOptions {
@@ -36,23 +63,43 @@
     justify-content: space-around;
 }
 
-/* .Burger {
-    overflow: unset;
-    display: flex;
-    width: 30%;
-    flex-direction: column;
-    align-items: center;
-    margin: 0px;
-    background-color: green;
-} */
-
-@media (max-width: 500px) {
+@media (max-width: 750px) {
     .Elements {
         flex-direction: column;
+        justify-content: center;
         align-items: center;
+        width: 100%;
     }
 
     .IngredientsChart {
-        width: 90%;
+        width: 100%;
+        margin-top: 2em;
+        margin-left: 0;
+    }
+
+    .IngredientListItem {
+        width: 20em;
+        align-self: center;
+    }
+
+    .IngredientsList {
+        padding: 0;
+        margin: auto;
+        width: 100%;
+    }
+
+    .IngredientsChart h3 {
+        margin: auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .IngredientListItem {
+        width: 80%;
+        align-self: center;
+    }
+    
+    .IngredientsChart h3 {
+        margin: auto;
     }
 }

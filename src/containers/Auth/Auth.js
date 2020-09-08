@@ -142,7 +142,7 @@ class Auth extends Component {
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <p className={classes.SmallText}>
-                        Password must contain 1 letter, 1 number, and 1 special
+                        Password must be at least 6 characters long, contain 1 letter, 1 number, and 1 special
                         character.
                     </p>
                     <Button btnType="Success" disabled={false}>

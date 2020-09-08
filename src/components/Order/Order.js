@@ -10,29 +10,26 @@ class order extends Component {
         return (
             <div className={classes.Order}>
                 <div className={classes.Elements}>
-                    <p className={classes.IngredientsChart}>
-                        Ingredients:{' '}
-                        {Object.entries(this.props.ingredients).map((el) => {
-                            return (
-                                <span
-                                    key={el[0]}
-                                    style={{
-                                        textTransform: 'capitalize',
-                                        display: 'inline-block',
-                                        margin: '0 8px',
-                                        border: '1px solid #ccc',
-                                        padding: '6px',
-                                    }}
-                                >
-                                    {el[0]} {el[1]}
-                                </span>
-                            );
-                        })}
-                    </p>
-                    <Burger
-                        size={1}
-                        ingredients={this.props.ingredients}
-                    />
+                    <div className={classes.IngredientsChart}>
+                        <h3>Ingredients: </h3>
+                        <ul className={classes.IngredientsList}>
+                            {Object.entries(this.props.ingredients).map(
+                                (el) => {
+                                    return (
+                                        <li
+                                            key={el[0]}
+                                            className={
+                                                classes.IngredientListItem
+                                            }
+                                        >
+                                            {el[1]} {el[0]}
+                                        </li>
+                                    );
+                                }
+                            )}
+                        </ul>
+                    </div>
+                    <Burger size={1} ingredients={this.props.ingredients} />
                 </div>
                 <div>
                     <ul className={classes.OrderOptions}>

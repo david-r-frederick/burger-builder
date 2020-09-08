@@ -8,96 +8,98 @@ import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
 import checkValidity from '../../../hoc/checkValidity/checkValidity';
-// import { NavLink } from 'react-router-dom';
 
 class ContactData extends Component {
-    state = {
-        orderForm: {
-            name: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Your Name',
+    constructor(props){
+        super(props);
+        this.state = {
+            orderForm: {
+                name: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'Your Name',
+                    },
+                    value: '',
+                    validation: {
+                        required: true,
+                        type: 'text',
+                    },
+                    valid: false,
+                    touched: false,
                 },
-                value: '',
-                validation: {
-                    required: true,
-                    type: 'text',
+                street: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'Street',
+                    },
+                    value: '',
+                    validation: {
+                        required: true,
+                        type: 'alphanumeric',
+                    },
+                    valid: false,
+                    touched: false,
                 },
-                valid: false,
-                touched: false,
+                zipCode: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'ZIP Code',
+                    },
+                    value: '',
+                    validation: {
+                        required: true,
+                        length: 5,
+                        type: 'number',
+                    },
+                    valid: false,
+                    touched: false,
+                },
+                country: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'text',
+                        placeholder: 'Country',
+                    },
+                    value: '',
+                    validation: {
+                        required: true,
+                        type: 'text',
+                    },
+                    valid: false,
+                    touched: false,
+                },
+                email: {
+                    elementType: 'input',
+                    elementConfig: {
+                        type: 'email',
+                        placeholder: 'Your Email',
+                    },
+                    value: '',
+                    validation: {
+                        required: true,
+                        type: 'email',
+                    },
+                    valid: false,
+                    touched: false,
+                },
+                deliveryMethod: {
+                    elementType: 'select',
+                    elementConfig: {
+                        options: [
+                            { value: 'fastest', displayValue: 'Fastest' },
+                            { value: 'cheapest', displayValue: 'Cheapest' },
+                        ],
+                    },
+                    value: 'cheapest',
+                    valid: true,
+                    touched: true,
+                },
             },
-            street: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Street',
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    type: 'alphanumeric',
-                },
-                valid: false,
-                touched: false,
-            },
-            zipCode: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'ZIP Code',
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    length: 5,
-                    type: 'number',
-                },
-                valid: false,
-                touched: false,
-            },
-            country: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Country',
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    type: 'text',
-                },
-                valid: false,
-                touched: false,
-            },
-            email: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'email',
-                    placeholder: 'Your Email',
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    type: 'email',
-                },
-                valid: false,
-                touched: false,
-            },
-            deliveryMethod: {
-                elementType: 'select',
-                elementConfig: {
-                    options: [
-                        { value: 'fastest', displayValue: 'Fastest' },
-                        { value: 'cheapest', displayValue: 'Cheapest' },
-                    ],
-                },
-                value: 'cheapest',
-                valid: true,
-                touched: true,
-            },
-        },
-        formIsValid: false,
+            formIsValid: false,
+        };
     };
 
     orderHandler = (event) => {
@@ -136,9 +138,16 @@ class ContactData extends Component {
         }
         this.setState({
             orderForm: updatedOrderForm,
-            formIsValid: validityArr.every((el) => el),
+            formIsValid: validityArr.every(l=>l),
         });
     };
+
+    componentDidMount() {
+        const formElement = document.getElementById('formElement');
+        if (formElement) {
+            formElement.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 
     render() {
         const formElementsArray = [];
@@ -149,7 +158,10 @@ class ContactData extends Component {
             });
         }
         let form = (
-            <form onSubmit={this.orderHandler}>
+            <form 
+                id="formElement"
+                onSubmit={this.orderHandler}
+            >
                 {formElementsArray.map((formElement) => (
                     <Input
                         key={formElement.id}
@@ -158,8 +170,9 @@ class ContactData extends Component {
                         elementType={formElement.config.elementType}
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
-                        changed={(event) =>
+                        changed={(event) => {
                             this.inputChangedHandler(event, formElement.id)
+                        }
                         }
                     />
                 ))}
